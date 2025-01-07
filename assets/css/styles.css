@@ -1,0 +1,158 @@
+/* Общие стили для форм */
+.contact-form {
+  background-color: #fff;
+  /* Белый фон для контраста */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.contact {
+  margin-top: 25px;
+  /* Отступ от хедера */
+  padding-top: 20px;
+  /* Добавляем немного внутреннего отступа для красоты */
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Разделить элементы на две стороны */
+  padding: 0 1rem; /* Отступы */
+}
+
+
+.contact-form h1 {
+  font-size: 2.2rem;
+  color: hsl(41, 99%, 34%);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.contact-form p {
+  font-size: 1.4rem;
+  color: hsl(41, 20%, 30%);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Стили для полей ввода */
+.contact-form .input-field {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid hsl(41, 20%, 70%);
+  border-radius: 5px;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.3s;
+}
+
+.contact-form .input-field:focus {
+  border-color: hsl(41, 99%, 50%);
+  outline: none;
+}
+
+/* Стили для текстовых полей */
+.contact-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  max-height: 200px;
+}
+
+/* Стили для меток */
+.contact-form .label {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: hsl(41, 30%, 20%);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* Стили для кнопок */
+.contact-form button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: hsl(41, 99%, 50%);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.contact-form button:hover {
+  background-color: hsl(41, 99%, 40%);
+}
+
+/* Стили для чекбокса */
+.contact-form label input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.contact-form label input[type="checkbox"]:checked {
+  accent-color: hsl(41, 99%, 50%);
+}
+
+.navbar {
+  display: none; /* Скрыть меню по умолчанию */
+  flex-direction: column; /* Сделать вертикальным */
+  background-color: white; /* Цвет фона меню */
+  position: absolute; /* Расположить поверх других элементов */
+  top: 60px; /* Расстояние от верхнего края */
+  left: 0;
+  width: 100%; /* Занять всю ширину */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легкая тень для контраста */
+  z-index: 10; /* Показать поверх остального */
+}
+
+.navbar.active {
+  display: flex; /* Показывать меню при активации */
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: black;
+  padding: 1rem;
+  border-bottom: 1px solid #f4f4f4; /* Линия между пунктами меню */
+  font-size: 1.2rem;
+}
+
+.nav-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.nav-toggle-btn ion-icon {
+  color: #333;
+  font-size: 3.8rem;
+}
+
+
+/* Для десктопов */
+@media (min-width: 1024px) {
+  .navbar {
+    display: flex !important;
+    position: static;
+    background: none;
+    box-shadow: none;
+    width: auto;
+  }
+
+  .nav-toggle-btn {
+    display: none;
+  }
+
+  .navbar-item {
+    margin: 0;
+  }
+
+  .navbar-link {
+    font-size: 1.4rem;
+  }
+}
