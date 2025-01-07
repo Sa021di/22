@@ -36,24 +36,46 @@
         <form id="viewer-form">
           <label class="label">Имя и фамилия *</label>
           <input type="text" class="input-field" name="name" required placeholder="Введите ваше имя">
-    
+
           <label class="label">Контактная информация *</label>
           <input type="text" class="input-field" name="contact" required placeholder="Email или телефон">
-    
-          <label class="label">Какая эмоция вам интересна?</label>
+
+          <label class="label">Эмоция/грань творчества *</label>
           <select class="input-field" name="emotion" required>
-            <option value="joy">Радость</option>
-            <option value="inspiration">Вдохновение</option>
-            <option value="sadness">Грусть</option>
-            <option value="surprise">Удивление</option>
-            <option value="worry">Беспокойство</option>
+            <!-- Позитивные эмоции -->
+            <optgroup label="Позитивные эмоции">
+              <option value="love">Влюбленность</option>
+              <option value="surprise">Удивление</option>
+              <option value="joy">Радость</option>
+              <option value="inspiration">Вдохновение</option>
+              <option value="delight">Восторг</option>
+              <option value="pleasure">Удовольствие</option>
+              <option value="curiosity">Любопытство</option>
+            </optgroup>
+            <!-- Негативные эмоции -->
+            <optgroup label="Негативные эмоции">
+              <option value="sadness">Грусть</option>
+              <option value="nostalgia">Ностальгия</option>
+              <option value="melancholy">Тоска</option>
+              <option value="disappointment">Разочарование</option>
+              <option value="anxiety">Тревога</option>
+              <option value="excitement">Волнение</option>
+              <option value="embarrassment">Смущение</option>
+              <option value="anger">Гнев</option>
+            </optgroup>
+            <!-- Нейтральные и другие эмоции -->
+            <optgroup label="Нейтральные эмоции">
+              <option value="freedom">Свобода</option>
+              <option value="gratitude">Благодарность</option>
+              <option value="euphoria">Эйфория</option>
+              <option value="calmness">Спокойствие</option>
+              <option value="peacefulness">Умиротворение</option>
+              <option value="indifference">Безразличие</option>
+              <option value="hope">Надежда</option>
+            </optgroup>
           </select>
-    
-          <label class="checkbox-label">
-            <input type="checkbox" required>
-            Я согласен с правилами участия
-          </label>
-    
+
+
           <button type="submit" class="btn btn-primary">Подтвердить регистрацию</button>
         </form>
       </div>
@@ -62,14 +84,6 @@
 
   <script>
     // Логика для адаптивного меню
-    const navToggleBtn = document.querySelector('.nav-toggle-btn');
-    const navbar = document.querySelector('.navbar');
-
-    navToggleBtn.addEventListener('click', () => {
-      navbar.classList.toggle('active');
-    });
-
-    // Логика для отправки формы
     const form = document.getElementById("viewer-form");
 
     form.addEventListener("submit", async (event) => {
@@ -81,8 +95,9 @@
         firstName: formData.get("name").split(" ")[0],
         lastName: formData.get("name").split(" ")[1] || "",
         contactInfo: formData.get("contact"),
-        emotion: formData.get("emotion"),
+        emotion: translateEmotion(formData.get("emotion")), // Переводим на русский
         role: "Зритель",
+        createdAt: formatDate(new Date()), // Сохраняем текущую дату и время
       };
 
       try {
@@ -104,6 +119,47 @@
         console.error("Ошибка отправки:", error);
       }
     });
+
+    // Функция перевода эмоций
+    function translateEmotion(emotion) {
+      const translations = {
+        joy: "Радость",
+        inspiration: "Вдохновение",
+        sadness: "Грусть",
+        surprise: "Удивление",
+        worry: "Беспокойство",
+        love: "Влюбленность",
+        freedom: "Свобода",
+        gratitude: "Благодарность",
+        euphoria: "Эйфория",
+        calmness: "Спокойствие",
+        peacefulness: "Умиротворение",
+        indifference: "Безразличие",
+        hope: "Надежда",
+        anger: "Гнев",
+        anxiety: "Тревога",
+        embarrassment: "Смущение",
+        disappointment: "Разочарование",
+        melancholy: "Тоска",
+        nostalgia: "Ностальгия",
+        delight: "Восторг",
+        curiosity: "Любопытство",
+        pleasure: "Удовольствие",
+      };
+      return translations[emotion] || emotion;
+    }
+
+    // Функция форматирования даты на русский язык
+    function formatDate(date) {
+      return new Intl.DateTimeFormat("ru-RU", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }).format(date);
+    }
   </script>
 </body>
 
