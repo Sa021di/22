@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#000000">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Админ Панель</title>
@@ -51,6 +54,18 @@
   </main>
 
   <script>
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .then((registration) => {
+          console.log('Service Worker зарегистрирован:', registration);
+        })
+        .catch((error) => {
+          console.error('Ошибка регистрации Service Worker:', error);
+        });
+    }
+    
     const usersTableBody = document.querySelector('#users-table tbody');
 
     async function fetchUsers() {
@@ -85,21 +100,21 @@
     }
 
     function openTelegram(username) {
-    const telegramAppLink = `tg://resolve?domain=${username}`;
-    const fallbackLink = `https://t.me/${username}`;
+      const telegramAppLink = `tg://resolve?domain=${username}`;
+      const fallbackLink = `https://t.me/${username}`;
 
-    // Попытка открыть через Telegram приложение
-    const openApp = window.open(telegramAppLink, '_self');
+      // Попытка открыть через Telegram приложение
+      const openApp = window.open(telegramAppLink, '_self');
 
-    // Если приложение не открывается, то используем fallback
-    setTimeout(() => {
+      // Если приложение не открывается, то используем fallback
+      setTimeout(() => {
         if (!openApp || openApp.closed || typeof openApp.closed == 'undefined') {
-            window.location.href = fallbackLink;
+          window.location.href = fallbackLink;
         }
-    }, 500);
+      }, 500);
 
-    return false; // Предотвращаем стандартное действие ссылки
-}
+      return false; // Предотвращаем стандартное действие ссылки
+    }
 
     // Загружаем данные при загрузке страницы
     fetchUsers();
