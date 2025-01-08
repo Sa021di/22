@@ -84,6 +84,42 @@
       }
     }
 
+    // Функция для форматирования даты
+    function formatDate(dateString) {
+      try {
+        const date = new Date(dateString);
+        if (isNaN(date)) throw new Error("Invalid date");
+        return date.toLocaleString('ru-RU', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        });
+      } catch (error) {
+        console.error('Ошибка форматирования даты:', error);
+        return 'Некорректная дата'; // Подходящая замена вместо "Invalid Date"
+      }
+    }
+
+    function openTelegram(username) {
+      const telegramAppLink = `tg://resolve?domain=${username}`;
+      const fallbackLink = `https://t.me/${username}`;
+
+      // Попытка открыть через Telegram приложение
+      const openApp = window.open(telegramAppLink, '_self');
+
+      // Если приложение не открывается, то используем fallback
+      setTimeout(() => {
+        if (!openApp || openApp.closed || typeof openApp.closed == 'undefined') {
+          window.location.href = fallbackLink;
+        }
+      }, 500);
+
+      return false; // Предотвращаем стандартное действие ссылки
+    }
+
     // Загружаем данные при загрузке страницы
     fetchUsers();
   </script>
