@@ -88,13 +88,24 @@
     }
 
     // Функция для форматирования даты
+    // Функция для форматирования даты
     function formatDate(dateString) {
       try {
-        let date = new Date(dateString);
-        if (isNaN(date)) {
-          date = new Date(dateString.replace(' ', 'T')); // Попытка преобразовать вручную
+        let date;
+
+        // Попытка напрямую преобразовать строку
+        if (dateString.includes('T')) {
+          // Если строка уже в ISO 8601 формате
+          date = new Date(dateString);
+        } else if (dateString.includes(' ')) {
+          // Если строка содержит пробел, заменяем его на 'T'
+          date = new Date(dateString.replace(' ', 'T'));
+        } else {
+          // Если строка в другом формате
+          throw new Error('Неподдерживаемый формат даты');
         }
-        if (isNaN(date)) throw new Error("Invalid date");
+
+        if (isNaN(date)) throw new Error('Невалидная дата после преобразования');
 
         return date.toLocaleString('ru-RU', {
           year: 'numeric',
