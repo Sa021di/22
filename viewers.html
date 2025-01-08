@@ -34,8 +34,11 @@
           Заполните форму ниже, чтобы зарегистрироваться как зритель на нашем Творческом вечере.
         </p>
         <form id="viewer-form">
-          <label class="label">Имя и фамилия *</label>
-          <input type="text" class="input-field" name="name" required placeholder="Введите ваше имя">
+          <label class="label">Имя *</label>
+          <input type="text" class="input-field" name="firstName" required placeholder="Введите ваше имя">
+
+          <label class="label">Фамилия *</label>
+          <input type="text" class="input-field" name="lastName" required placeholder="Введите вашу фамилию">
 
           <label class="label">Контактная информация *</label>
           <input type="text" class="input-field" name="contact" required placeholder="Email или телефон">
@@ -75,7 +78,6 @@
             </optgroup>
           </select>
 
-
           <button type="submit" class="btn btn-primary">Подтвердить регистрацию</button>
         </form>
       </div>
@@ -83,7 +85,6 @@
   </main>
 
   <script>
-    // Логика для адаптивного меню
     const form = document.getElementById("viewer-form");
 
     form.addEventListener("submit", async (event) => {
@@ -92,12 +93,12 @@
       const formData = new FormData(form);
 
       const data = {
-        firstName: formData.get("name").split(" ")[0],
-        lastName: formData.get("name").split(" ")[1] || "",
+        firstName: formData.get("firstName"),
+        lastName: formData.get("lastName"),
         contactInfo: formData.get("contact"),
         emotion: translateEmotion(formData.get("emotion")), // Переводим на русский
         role: "Зритель",
-        createdAt: formatDate(new Date()), // Сохраняем текущую дату и время
+        createdAt: new Date().toISOString(), // Сохраняем дату в ISO формате для MockAPI
       };
 
       try {
@@ -120,15 +121,23 @@
       }
     });
 
-    // Функция перевода эмоций
     function translateEmotion(emotion) {
       const translations = {
+        love: "Влюбленность",
+        surprise: "Удивление",
         joy: "Радость",
         inspiration: "Вдохновение",
+        delight: "Восторг",
+        pleasure: "Удовольствие",
+        curiosity: "Любопытство",
         sadness: "Грусть",
-        surprise: "Удивление",
-        worry: "Беспокойство",
-        love: "Влюбленность",
+        nostalgia: "Ностальгия",
+        melancholy: "Тоска",
+        disappointment: "Разочарование",
+        anxiety: "Тревога",
+        excitement: "Волнение",
+        embarrassment: "Смущение",
+        anger: "Гнев",
         freedom: "Свобода",
         gratitude: "Благодарность",
         euphoria: "Эйфория",
@@ -136,29 +145,8 @@
         peacefulness: "Умиротворение",
         indifference: "Безразличие",
         hope: "Надежда",
-        anger: "Гнев",
-        anxiety: "Тревога",
-        embarrassment: "Смущение",
-        disappointment: "Разочарование",
-        melancholy: "Тоска",
-        nostalgia: "Ностальгия",
-        delight: "Восторг",
-        curiosity: "Любопытство",
-        pleasure: "Удовольствие",
       };
       return translations[emotion] || emotion;
-    }
-
-    // Функция форматирования даты на русский язык
-    function formatDate(date) {
-      return new Intl.DateTimeFormat("ru-RU", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }).format(date);
     }
   </script>
 </body>

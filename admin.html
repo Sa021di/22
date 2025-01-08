@@ -35,6 +35,7 @@
               <th>Имя</th>
               <th>Фамилия</th>
               <th>Контакт</th>
+              <th>Telegram</th>
               <th>Тип участия</th>
               <th>Эмоция</th>
               <th>Роль</th>
@@ -61,11 +62,15 @@
 
         users.forEach(user => {
           const row = document.createElement('tr');
+          const telegramLink = user.telegramUserName
+            ? `<a href="https://t.me/${user.telegramUserName}" target="_blank">${user.telegramUserName}</a>`
+            : '-';
           row.innerHTML = `
             <td>${user.id}</td>
             <td>${user.firstName || '-'}</td>
             <td>${user.lastName || '-'}</td>
             <td>${user.contactInfo || '-'}</td>
+            <td>${telegramLink}</td>
             <td>${user.performanceType || '-'}</td>
             <td>${user.emotion || '-'}</td>
             <td>${user.role}</td>
