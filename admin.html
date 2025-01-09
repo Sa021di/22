@@ -32,7 +32,7 @@
           <span id="participants-count" class="stats-item">Участники: Загружается...</span><br>
           <span id="viewers-count" class="stats-item">Зрители: Загружается...</span>
         </p>
-        
+
         <div class="table-wrapper">
           <table id="users-table">
             <thead>
@@ -111,14 +111,30 @@
     }
 
     function formatDate(dateString) {
-      const parts = dateString.split(',')[0].split('.');
-      const time = dateString.split(',')[1]?.trim();
-      if (parts.length !== 3 || !time) return 'Некорректная дата';
+      try {
+        const [datePart, timePart] = dateString.split(','); // Разделяем дату и время
+        const [day, month, year] = datePart.split('.'); // Разделяем день, месяц и год
 
-      const [day, month, year] = parts;
-      return `${day}.${month}.${year}, ${time}`;
+        // Проверяем корректность данных
+        if (!day || !month || !year || !timePart) return 'Некорректная дата';
+
+        // Названия месяцев
+        const monthNames = [
+          'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+          'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+        ];
+
+        const monthName = monthNames[parseInt(month, 10) - 1]; // Преобразуем месяц в название
+
+        return `${day} ${monthName} ${year}, ${timePart.trim()}`;
+      } catch (error) {
+        console.error('Ошибка форматирования даты:', error);
+        return 'Некорректная дата';
+      }
     }
 
+    // Пример использования
+    console.log(formatDate('09.01.2025, 15:45:42')); // "09 января 2025, 15:45:42"
     // Загружаем данные при загрузке страницы
     fetchUsers();
 

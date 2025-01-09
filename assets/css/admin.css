@@ -7,11 +7,18 @@ body {
   padding: 0;
 }
 
+/* Стили для статистики */
 .stats {
   margin: 20px 0;
   font-size: 1.2rem;
   font-weight: bold;
   color: #333;
+  line-height: 1.6;
+}
+
+.stats-item {
+  display: block;
+  margin-bottom: 5px;
 }
 
 /* Таблица */
