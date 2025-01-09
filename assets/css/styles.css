@@ -1,4 +1,14 @@
 /* Общие стили для форм */
+
+html, body {
+  height: 100%; /* Устанавливаем высоту для всей страницы */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Убираем горизонтальную прокрутку */
+  overflow-y: auto; /* Разрешаем вертикальную прокрутку */
+  font-family: Arial, sans-serif;
+}
+
 .contact-form {
   background-color: #fff;
   /* Белый фон для контраста */
