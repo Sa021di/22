@@ -10,84 +10,67 @@
   <link rel="stylesheet" href="./assets/css/require.css">
   <link rel="stylesheet" href="./assets/css/admin.css">
   <script>
-    // Проверка пароля
+    // Проверка пароля перед загрузкой страницы
     const password = prompt("Введите пароль для доступа к админ панели:");
     if (password !== "password123") {
       alert("Неверный пароль. Доступ запрещен!");
-      window.location.href = "./index.html";
+      window.location.href = "./index.html"; // Возврат на главную страницу
     }
   </script>
 </head>
 
 <body>
   <header class="header">
-    <div class="container">
-      <h3 class="headline-md">Админ Панель</h3>
-    </div>
   </header>
 
   <main>
-    <section class="stats">
-      <div class="container">
-        <h2>Статистика</h2>
-        <p class="stats-item">Общее количество: <span id="total-count">0</span></p>
-        <p class="stats-item">Участники: <span id="participants-count">0</span></p>
-        <p class="stats-item">Зрители: <span id="viewers-count">0</span></p>
-      </div>
-    </section>
-
     <section class="admin-panel">
       <div class="container">
         <h2 class="headline-md">Список зарегистрированных пользователей</h2>
-        <table id="users-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Имя</th>
-              <th>Фамилия</th>
-              <th>Контакт</th>
-              <th>Telegram</th>
-              <th>Тип участия</th>
-              <th>Эмоция</th>
-              <th>Роль</th>
-              <th>Дата регистрации</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Данные загружаются динамически -->
-          </tbody>
-        </table>
+        <p id="stats" class="stats">
+          <span id="total-count" class="stats-item">Общее количество: Загружается...</span><br>
+          <span id="participants-count" class="stats-item">Участники: Загружается...</span><br>
+          <span id="viewers-count" class="stats-item">Зрители: Загружается...</span>
+        </p>
+        
+        <div class="table-wrapper">
+          <table id="users-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Контакт</th>
+                <th>Telegram</th>
+                <th>Тип участия</th>
+                <th>Эмоция</th>
+                <th>Роль</th>
+                <th>Дата регистрации</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Сюда будут загружены данные -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   </main>
 
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/service-worker.js')
-        .then((registration) => {
-          console.log('Service Worker зарегистрирован:', registration);
-        })
-        .catch((error) => {
-          console.error('Ошибка регистрации Service Worker:', error);
-        });
-    }
-
     const usersTableBody = document.querySelector('#users-table tbody');
-    const totalCountEl = document.getElementById('total-count');
-    const participantsCountEl = document.getElementById('participants-count');
-    const viewersCountEl = document.getElementById('viewers-count');
+    const statsEl = document.getElementById('stats');
 
     async function fetchUsers() {
       try {
         const response = await fetch("https://677cf63a4496848554c85fe7.mockapi.io/users/users");
         const users = await response.json();
 
+        usersTableBody.innerHTML = ''; // Очищаем таблицу
+
         let totalCount = 0;
         let participantsCount = 0;
         let viewersCount = 0;
-
-        usersTableBody.innerHTML = ''; // Очищаем таблицу
 
         users.forEach(user => {
           const row = document.createElement('tr');
@@ -95,32 +78,32 @@
             ? `<a href="https://t.me/${user.telegramUserName}" target="_blank">${user.telegramUserName}</a>`
             : '-';
 
-          // Формат даты
           const formattedDate = formatDate(user.createdAt);
 
           row.innerHTML = `
-            <td>${user.id}</td>
-            <td>${user.firstName || '-'}</td>
-            <td>${user.lastName || '-'}</td>
-            <td>${user.contactInfo || '-'}</td>
-            <td>${telegramLink}</td>
-            <td>${user.performanceType || '-'}</td>
-            <td>${user.emotion || '-'}</td>
-            <td>${user.role}</td>
-            <td>${formattedDate}</td>
-          `;
+        <td>${user.id}</td>
+        <td>${user.firstName || '-'}</td>
+        <td>${user.lastName || '-'}</td>
+        <td>${user.contactInfo || '-'}</td>
+        <td>${telegramLink}</td>
+        <td>${user.performanceType || '-'}</td>
+        <td>${user.emotion || '-'}</td>
+        <td>${user.role}</td>
+        <td>${formattedDate}</td>
+      `;
 
           usersTableBody.appendChild(row);
 
-          // Статистика
+          // Считаем статистику
           totalCount++;
           if (user.role === 'Участник') participantsCount++;
           if (user.role === 'Зритель') viewersCount++;
         });
 
-        totalCountEl.textContent = totalCount;
-        participantsCountEl.textContent = participantsCount;
-        viewersCountEl.textContent = viewersCount;
+        // Обновляем статистику
+        document.getElementById('total-count').textContent = `Общее количество: ${totalCount}`;
+        document.getElementById('participants-count').textContent = `Участники: ${participantsCount}`;
+        document.getElementById('viewers-count').textContent = `Зрители: ${viewersCount}`;
       } catch (error) {
         console.error('Ошибка загрузки пользователей:', error);
         alert('Не удалось загрузить данные пользователей.');
@@ -128,8 +111,11 @@
     }
 
     function formatDate(dateString) {
-      const [day, month, year] = dateString.split(/\.|,/)[0].split('.');
-      const time = dateString.split(', ')[1];
+      const parts = dateString.split(',')[0].split('.');
+      const time = dateString.split(',')[1]?.trim();
+      if (parts.length !== 3 || !time) return 'Некорректная дата';
+
+      const [day, month, year] = parts;
       return `${day}.${month}.${year}, ${time}`;
     }
 
