@@ -104,6 +104,12 @@
   </main>
 
   <script>
+    const navToggleBtn = document.querySelector(".nav-toggle-btn");
+    const navbar = document.querySelector(".navbar");
+
+    navToggleBtn.addEventListener("click", () => {
+      navbar.classList.toggle("active"); // Переключаем класс active
+    });
     const form = document.getElementById("participants-form");
 
     form.addEventListener("submit", async (event) => {
