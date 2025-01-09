@@ -22,26 +22,50 @@ body {
     margin-bottom: 2rem;
   }
   
+ /* admin.css */
+
+/* Общие стили таблицы */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
   table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 5rem auto; /* Добавим отступ сверху */
-    background-color: #fff;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
-  
-  table th,
-  table td {
-    padding: 1.5rem; /* Увеличим отступы */
-    font-size: 1.4rem; /* Увеличим размер текста */
-    border: 1px solid #ddd;
-    text-align: left;
+
+  th, td {
+    padding: 10px;
+    font-size: 0.9rem;
   }
-  
-  table th {
-    background-color: #f4f4f4;
+
+  /* Секция статистики на мобильных устройствах */
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  
-  table tr:nth-child(even) {
-    background-color: #f9f9f9;
+
+  .stats-item {
+    font-size: 1.1rem;
+    font-weight: bold;
   }
+}
+
   
